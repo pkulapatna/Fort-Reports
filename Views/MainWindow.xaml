@@ -1,0 +1,259 @@
+﻿<Window x:Class="FortéRTREP.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:prism="http://prismlibrary.com/"
+        xmlns:MaterialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
+        WindowState="{Binding CurWindowState,Mode=TwoWay}"  
+        WindowStyle="None" 
+        AllowsTransparency="True" Background="Transparent"
+        MouseLeftButtonDown="Win_LeftBtnMouseDown" Icon="/FortéRLReports;component/CLOCK02.ICO"
+        Title="{Binding Title}" Height="720" Width="1280" 
+        Loaded="MainWindow_Load"  Closing="MainWindow_Closing" >
+    <Border CornerRadius="15"  Margin="0" BorderThickness="0" 
+            Background="Black" BorderBrush="Transparent">
+        <Grid Margin="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="2"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="45"/>
+            </Grid.RowDefinitions>
+            <Border  Grid.Row="1" Grid.Column="1" CornerRadius="10" BorderBrush="DimGray">
+                <Border.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FF6A7C8F" Offset="0"/>
+                        <GradientStop Color="#FF0E0808" Offset="1"/>
+                        <GradientStop Color="#FFCDCDCD" Offset="0.012"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+                <Grid  Margin="5,0,5,0" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="0"/>
+                        <ColumnDefinition Width="650"/>
+                        <ColumnDefinition Width="0"/>
+                    </Grid.ColumnDefinitions>
+                    <Rectangle Grid.Column="0"  Grid.ColumnSpan="4" Height="2" VerticalAlignment="Bottom" 
+                               Fill="Black" Margin="0"/>
+                    <Label x:Name="MyTitle" Grid.Column="1" Content="{Binding MainWindowTitle}" 
+                           FontWeight="Medium" HorizontalAlignment="Left" 
+                           FontSize="16" VerticalAlignment="Center" Margin="10,0,0,5"
+                           Background="Transparent" Foreground="White" FontFamily="Yu Gothic UI">
+                        <Label.Effect>
+                            <DropShadowEffect/>
+                        </Label.Effect>
+                    </Label>
+                    <StackPanel Grid.Column="3"  Orientation="Horizontal" HorizontalAlignment="Right" >
+                        <Label Content="ShowLog" Grid.Column="2" Foreground="White" ToolTip="Click to Show App Log"
+                               VerticalAlignment="Center" FontSize="16"  Visibility="Hidden">
+                            <Label.Effect>
+                                <DropShadowEffect/>
+                            </Label.Effect>
+                        </Label>
+                        <Button  Width="38" Height="38" VerticalAlignment="Top" Cursor="Hand" Visibility="Hidden" 
+                                 Command="{Binding ViewLogCommand}" BorderBrush="{x:Null}"  Margin="0,0,20,0"
+                                 Background="{x:Null}" Foreground="#FFF1E243" ToolTip="Show Log">
+                            <MaterialDesign:PackIcon Kind="MessageAlert" Width="26" Height="26">
+                                <MaterialDesign:PackIcon.Effect>
+                                    <DropShadowEffect/>
+                                </MaterialDesign:PackIcon.Effect>
+                            </MaterialDesign:PackIcon>
+                        </Button>
+                        <Label Content="MinScreen" Grid.Column="2" Foreground="White" VerticalAlignment="Center" 
+                               FontSize="16" >
+                            <Label.Effect>
+                                <DropShadowEffect/>
+                            </Label.Effect>
+                        </Label>
+                        <Button  Width="38" Height="38" VerticalAlignment="Top" Cursor="Hand"  
+                                 Command="{Binding MinScrCommand}" BorderBrush="{x:Null}" 
+                                 Background="{x:Null}" Foreground="#FFF1E243" ToolTip="Small screen">
+                            <MaterialDesign:PackIcon Kind="WindowMinimize" Width="26" Height="26">
+                                <MaterialDesign:PackIcon.Effect>
+                                    <DropShadowEffect/>
+                                </MaterialDesign:PackIcon.Effect>
+                            </MaterialDesign:PackIcon>
+                        </Button>
+                        <Label Content="FullScreen" Grid.Column="2" Foreground="White"  Margin="15,0,0,0" 
+                                VerticalAlignment="Center" FontSize="16" >
+                            <Label.Effect>
+                                <DropShadowEffect/>
+                            </Label.Effect>
+                        </Label>
+                        <Button  Width="38" Height="38" VerticalAlignment="Top" Cursor="Hand"  
+                                Command="{Binding FullScrCommand}" BorderBrush="{x:Null}" 
+                                Background="{x:Null}" Foreground="#FFF1E243" ToolTip="Full Screen">
+                            <MaterialDesign:PackIcon Kind="Fullscreen" Width="26" Height="26">
+                                <MaterialDesign:PackIcon.Effect>
+                                    <DropShadowEffect/>
+                                </MaterialDesign:PackIcon.Effect>
+                            </MaterialDesign:PackIcon>
+                        </Button>
+
+                        <Label Content="Hide" Grid.Column="2" Margin="15,0,0,0" Foreground="White" 
+                               VerticalAlignment="Center" FontSize="16" >
+                            <Label.Effect>
+                                <DropShadowEffect/>
+                            </Label.Effect>
+                        </Label>
+                        <Button  Width="38" Height="38" VerticalAlignment="Top" Cursor="Hand"  
+                                 Command="{Binding HideScrCommand}" BorderBrush="{x:Null}" 
+                                 Background="{x:Null}" Foreground="#FFF1E243" ToolTip="Hide App in Task bar">
+                            <MaterialDesign:PackIcon Kind="Hide" Width="26" Height="26">
+                                <MaterialDesign:PackIcon.Effect>
+                                    <DropShadowEffect/>
+                                </MaterialDesign:PackIcon.Effect>
+                            </MaterialDesign:PackIcon>
+                        </Button>
+                        <Label Content="ShutDown" Grid.Column="2" Margin="20,0,0,0" Foreground="White" 
+                               VerticalAlignment="Center" FontSize="16" >
+                            <Label.Effect>
+                                <DropShadowEffect/>
+                            </Label.Effect>
+                        </Label>
+                        <Button  Width="38" Height="38" VerticalAlignment="Top" Cursor="Hand"  
+                                 Command="{Binding AppExitCommand}" BorderBrush="{x:Null}" 
+                                 Background="{x:Null}" Foreground="Orange" ToolTip="Exit Program">
+                            <MaterialDesign:PackIcon Kind="Power" Width="30" Height="30" Margin="0,0,10,0">
+                                <MaterialDesign:PackIcon.Effect>
+                                    <DropShadowEffect/>
+                                </MaterialDesign:PackIcon.Effect>
+                            </MaterialDesign:PackIcon>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <TabControl Grid.Column="1" Grid.Row="2" TabStripPlacement="Left" Margin="0,5,0,0" 
+                        BorderThickness="0" Background="Black" >
+                <TabControl.Resources>
+                    <!-- Tab control styling -->
+                    <Style TargetType="{x:Type TabControl}">
+                        <Setter Property="Padding" Value="1" />
+                        <Setter Property="Background" Value="Gray" />
+                    </Style>
+                    <Style TargetType="{x:Type TabPanel}">
+                        <Setter Property="HorizontalAlignment" Value="Left"/>
+                    </Style>
+                    <!-- Tab item styling -->
+                    <Style TargetType="{x:Type TabItem}">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type TabItem}">
+                                    <Grid x:Name="Panel">
+                                        <Border 
+                                        x:Name="Border"
+                                        Background="LightSkyBlue"
+                                        BorderBrush="Black" 
+                                        Cursor="Hand"
+                                        BorderThickness="1,1,3,5" 
+                                        CornerRadius="6,6,6,6" >
+                                            <ContentPresenter x:Name="ContentSite"                  
+                                            VerticalAlignment="Center"
+                                            HorizontalAlignment="Stretch"
+                                            Width="65"
+                                            Height="60"
+                                            ContentSource="Header"
+                                            ToolTip="Click on tab to select Options"
+                                            Margin="0,0,0,0"/>
+                                        </Border>
+                                    </Grid>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter TargetName="Panel" Property="Background" Value="Transparent" />
+                                            <Setter Property="Foreground" Value="Black" />
+                                        </Trigger>
+                                        <Trigger Property="IsSelected" Value="False">
+                                            <Setter TargetName="Panel" Property="Background" Value="Transparent" />
+                                            <Setter Property="Foreground" Value="black" />
+                                            <Setter TargetName="Border" Property="Background" Value="White" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </TabControl.Resources>
+                <TabItem BorderThickness="0" IsSelected="{Binding SelectSetup}" >
+                    <TabItem.Header >
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <TextBlock Text="SETUP" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </TabItem.Header>
+                    <Grid >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="87*"/>
+                            <RowDefinition Height="536*"/>
+                        </Grid.RowDefinitions>
+                        <ContentControl prism:RegionManager.RegionName="ContentRegion1" Grid.RowSpan="2" />
+                    </Grid>
+                </TabItem>
+                <TabItem BorderThickness="0"  IsSelected="{Binding SelectBale}" Height="{Binding TabRtHeight}"
+                     IsEnabled="{Binding BaleActive}" Visibility="{Binding ShowRT}">
+                    <TabItem.Header >
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <TextBlock Text="BALE " VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </TabItem.Header>
+                    <Grid  VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="black">
+                        <ContentControl prism:RegionManager.RegionName="ContentRegion2"  />
+                    </Grid>
+                </TabItem>
+                <TabItem BorderThickness="0"  IsSelected="{Binding SelectWl}" Height="{Binding TabWLHeight}"
+                     IsEnabled="{Binding WLActive}" Visibility="{Binding ShowWL}" >
+                    <TabItem.Header >
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <TextBlock Text="WETLAYER" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </TabItem.Header>
+                    <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="black">
+                        <ContentControl prism:RegionManager.RegionName="ContentRegion3" />
+                    </Grid>
+                </TabItem>
+                <TabItem BorderThickness="0"  IsSelected="{Binding SelectXFer}" Height="{Binding TabXFerHeight}" 
+                     IsEnabled="{Binding XFerActive}" Visibility="{Binding ShowXFer}" >
+                    <TabItem.Header >
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <TextBlock Text="DATAXFER" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </TabItem.Header>
+                    <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="black">
+                        <ContentControl prism:RegionManager.RegionName="ContentRegionX" />
+                    </Grid>
+                </TabItem>
+            </TabControl>
+
+            <DockPanel Grid.Row="3" Height="40"  VerticalAlignment="Center"  Grid.Column="1" Margin="5,0,5,0"  >
+                <Border CornerRadius="10" BorderBrush="DimGray">
+                    <Border.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FF6A7C8F" Offset="0"/>
+                            <GradientStop Color="#FF0E0808" Offset="1"/>
+                            <GradientStop Color="#FFCDCDCD" Offset="0.012"/>
+                        </LinearGradientBrush>
+                    </Border.Background>
+                    <StatusBar DockPanel.Dock="Bottom" Margin="5,0,0,0" Background="Transparent">
+                        <StatusBarItem  Width="500" HorizontalAlignment="Left">
+                            <TextBlock x:Name="StrStatus" FontSize="16" Margin="10,0,0,0" Text="{Binding StrStatus}"
+                                   VerticalAlignment="Bottom" Foreground="#FF09FFF4" Width="auto"/>
+                        </StatusBarItem>
+                        <StatusBarItem  Width="250" HorizontalAlignment ="Center">
+                            <TextBlock x:Name="tbCurBalex" Text="{Binding ProgramVersion}" 
+                                   FontSize="16" Margin="0,0,0,0" VerticalAlignment="Center" Foreground="#FF09FFF4"/>
+                        </StatusBarItem>
+                        <StatusBarItem  Width="100" HorizontalAlignment ="Right">
+                            <TextBlock x:Name="tbCurTime" Text="{Binding CurTime}"  HorizontalAlignment="Center"
+                                   FontSize="16" Margin="0,0,0,0" VerticalAlignment="Center" Foreground="#FF09FFF4"/>
+                        </StatusBarItem>
+                    </StatusBar>
+                </Border>
+            </DockPanel>
+        </Grid>
+    </Border>
+</Window>

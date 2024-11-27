@@ -1,0 +1,1110 @@
+﻿<UserControl x:Class="SQLDataTansfer.Views.DataTransferView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SQLDataTansfer.Views"
+             mc:Ignorable="d" 
+             xmlns:MaterialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             d:DesignHeight="630" d:DesignWidth="1170">
+    <UserControl.Resources>
+        <ResourceDictionary Source="/WpfArchive.Windows.Theme;component/Theme.xaml" />
+    </UserControl.Resources>
+
+    <Grid Background="black">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2"/>
+            <RowDefinition Height="3"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="0"/>
+            <RowDefinition Height="0"/>
+            <RowDefinition Height="5"/>
+        </Grid.RowDefinitions>
+
+        <TabControl Grid.Row="2"  HorizontalAlignment="Stretch"  VerticalAlignment="Stretch"  Margin="5"
+                    FontFamily="Verdana" FontSize="12" BorderThickness="0">
+            <TabControl.Resources>
+                <Style TargetType="{x:Type TabPanel}">
+                    <Setter Property="HorizontalAlignment" Value="Left"/>
+                </Style>
+                <Style TargetType="TabItem">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="TabItem">
+                                <Grid Name="Panel">
+                                    <Border 
+                                        Name="Border"
+                                        Background="LightSkyBlue"
+                                        BorderBrush="Gray" 
+                                        BorderThickness="1,1,3,0" 
+                                        CornerRadius="6,6,0,0" >
+                                        <ContentPresenter x:Name="ContentSite"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Center"
+                                        ContentSource="Header"
+                                        Cursor="Hand"
+                                        Height="17"
+                                        ToolTip="Click on tab to select Archives type"
+                                        Margin="12,5,12,5"/>
+                                    </Border>
+                                </Grid>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter TargetName="Panel" Property="Background" Value="Transparent" />
+                                        <Setter Property="Foreground" Value="Black" />
+                                    </Trigger>
+                                    <Trigger Property="IsSelected" Value="False">
+                                        <Setter TargetName="Panel" Property="Background" Value="Transparent" />
+                                        <Setter Property="Foreground" Value="Gray" />
+                                        <Setter TargetName="Border" Property="Background" Value="White" />
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </TabControl.Resources>
+
+            <TabItem Header="Bale SQL Data Transfer" IsEnabled="{Binding RtTabEnable}" Width="{Binding RtTabWidth}" >
+                <Grid  Background="Black">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="10*"/>
+                        <ColumnDefinition Width="500"/>
+                        <ColumnDefinition Width="500"/>
+                        <ColumnDefinition Width="10*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="5*"/>
+                        <RowDefinition Height="470"/>
+                        <RowDefinition Height="90"/>
+                        <RowDefinition Height="5*"/>
+                    </Grid.RowDefinitions>
+                    
+                    <Border Grid.Row="1" Grid.Column="1" BorderThickness="1" CornerRadius="15" BorderBrush="Maroon" Margin="5" >
+                        <Border.Background>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="Black" Offset="0"/>
+                                <GradientStop Color="#FF5D6D70" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <GroupBox  BorderThickness="0" IsEnabled="{Binding IdleMode}"
+                              HorizontalAlignment="Stretch"  FontSize="14"  Foreground="AntiqueWhite">
+                            <Grid >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="5"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="0"/>
+                                    <ColumnDefinition Width="5"/>
+                                </Grid.ColumnDefinitions>
+
+                                <GroupBox Grid.Column="1" BorderThickness="0" Header="Client SQL Server for Bale Data">
+                                    <GroupBox.Effect>
+                                        <DropShadowEffect Color="Black" BlurRadius="10" Direction="721" ShadowDepth="1" RenderingBias="Quality" />
+                                    </GroupBox.Effect>
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="2"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="80"/>
+                                            <RowDefinition Height="2"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="2"/>
+                                            <ColumnDefinition Width="160"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="0"/>
+                                            <ColumnDefinition Width="0"/>
+                                            <ColumnDefinition Width="2"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Button  Content="Search" Command="{Binding SearchRtCommand}" Grid.Column="1" Grid.Row="1"
+                                                ToolTip="Get the list of Sql Servers on the Network!"  Cursor="Hand" 
+                                                    HorizontalAlignment="Right" Panel.ZIndex="99" 
+                                                Margin="0,0,10,0" Width="100" Height="25" FontSize="14" FontFamily="Arial">
+                                            <Button.Background>
+                                                <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                                                    <GradientStop Color="#FFF3F3F3" Offset="0"/>
+                                                    <GradientStop Color="#FFEBEBEB" Offset="0.5"/>
+                                                    <GradientStop Color="#FFDDDDDD" Offset="0.5"/>
+                                                    <GradientStop Color="#FFB98907" Offset="1"/>
+                                                </LinearGradientBrush>
+                                            </Button.Background>
+                                        </Button>
+                                        <ComboBox Cursor="Hand" Margin="0,0,0,0" Grid.Column="2" Grid.Row="1" Panel.ZIndex="99" 
+                                                      ItemsSource="{Binding ServercomboList}" IsEnabled="{Binding SearchDone}"
+                                                      Style="{StaticResource MyCombobox}" SelectedValue="{Binding SelectServerName}"
+                                                      SelectedIndex="{Binding SelectedServerIdx, UpdateSourceTrigger=PropertyChanged}"
+                                                  HorizontalAlignment="Left"
+                                                      VerticalAlignment="Center" Width="200"  FontSize="14">
+                                            <ComboBox.Background>
+                                                <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                                                    <GradientStop Color="#FFF3F3F3" Offset="0"/>
+                                                    <GradientStop Color="#FFEBEBEB" Offset="0.5"/>
+                                                    <GradientStop Color="#FFDDDDDD" Offset="0.5"/>
+                                                    <GradientStop Color="White" Offset="1"/>
+                                                </LinearGradientBrush>
+                                            </ComboBox.Background>
+                                        </ComboBox>
+
+                                        <Button Grid.Column="1" Grid.Row="2"  Content="DataBase" HorizontalAlignment="Right"  
+                                                VerticalAlignment="Center" Foreground="black" Command="{Binding SelectRtDbCommand}"
+                                                Width="100" Height="25" FontSize="14" FontFamily="Arial" Margin="0,0,10,0" Panel.ZIndex="99" >
+                                            <Button.Background>
+                                                <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                                                    <GradientStop Color="#FFF3F3F3" Offset="0"/>
+                                                    <GradientStop Color="#FFEBEBEB" Offset="0.5"/>
+                                                    <GradientStop Color="#FFDDDDDD" Offset="0.5"/>
+                                                    <GradientStop Color="#FFB98907" Offset="1"/>
+                                                </LinearGradientBrush>
+                                            </Button.Background>
+                                        </Button>
+
+                                        <ComboBox  Grid.Column="2" Grid.Row="2" HorizontalAlignment="Left" Height="25" Panel.ZIndex="99" 
+                                                   ItemsSource="{Binding DbcomboList}" Cursor="Hand" SelectedValue="{Binding XferRtDbName}"
+                                                   Background="AntiqueWhite"  Style="{StaticResource MyCombobox}"
+                                                   Margin="0"  VerticalAlignment="Center"  Width="200"/>
+
+                                        <Button Grid.Column="1" Grid.Row="3"  Content="Table" HorizontalAlignment="Right" Panel.ZIndex="99"  
+                                                VerticalAlignment="Center" Foreground="black" Command="{Binding SelectRtTableCommand}"
+                                                Width="100" Height="25" FontSize="14" FontFamily="Arial" Margin="0,0,10,0" >
+                                            <Button.Background>
+                                                <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                                                    <GradientStop Color="#FFF3F3F3" Offset="0"/>
+                                                    <GradientStop Color="#FFEBEBEB" Offset="0.5"/>
+                                                    <GradientStop Color="#FFDDDDDD" Offset="0.5"/>
+                                                    <GradientStop Color="#FFB98907" Offset="1"/>
+                                                </LinearGradientBrush>
+                                            </Button.Background>
+                                        </Button>
+
+                                        <ComboBox Grid.Column="2" Grid.Row="3"  HorizontalAlignment="Left" Height="25" 
+                                                  ItemsSource="{Binding TablecomboList}" Cursor="Hand" SelectedValue="{Binding XferRtTableName}"                                              
+                                                  Background="AntiqueWhite"  Style="{StaticResource MyCombobox}"
+                                                  Margin="0"  VerticalAlignment="Center"  Width="200"  Panel.ZIndex="99" />
+
+                                        <Border Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="4" 
+                                                CornerRadius="10" BorderBrush="Maroon">
+                                            <Border.Background>
+                                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                    <GradientStop Color="Black" Offset="0"/>
+                                                    <GradientStop Color="#FF535050" Offset="1"/>
+                                                </LinearGradientBrush>
+                                            </Border.Background>
+                                            <Rectangle  Margin="0"/>
+                                        </Border>
+                                        <StackPanel Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="4" Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <RadioButton   VerticalContentAlignment="Center"
+                                                        IsChecked="{Binding WinAuChecked}"
+                                                        Foreground="White" Content="Windows authentication" GroupName="SqlConnect"/>
+                                            <RadioButton  VerticalContentAlignment="Center"
+                                                        IsChecked="{Binding SQLAuChecked}" Margin="20,0,0,0"
+                                                        Foreground="White" Content="SQL authentication" GroupName="SqlConnect"/>
+                                        </StackPanel>
+
+                                        <Label Grid.Row="5" Grid.Column="1" Content="RemoteHost :" VerticalAlignment="Center"
+                                               Foreground="White" HorizontalAlignment="Right"/>
+                                        <Label Grid.Row="6" Grid.Column="1" Content="Instance :" VerticalAlignment="Center"
+                                               Foreground="White" HorizontalAlignment="Right"/>
+                                        <Label Grid.Row="7" Grid.Column="1" Content="User :" VerticalAlignment="Center"
+                                               Foreground="White" HorizontalAlignment="Right"/>
+                                        <Label Grid.Row="8" Grid.Column="1" Content="Password :" VerticalAlignment="Center"
+                                               Foreground="White" HorizontalAlignment="Right"/>
+                                        <Label Grid.Row="9" Grid.Column="1" Content="Database :" VerticalAlignment="Center"
+                                               Foreground="White" HorizontalAlignment="Right"/>
+                                        <Label Grid.Row="10" Grid.Column="1" Content="DataTable :" VerticalAlignment="Center"
+                                               Foreground="White" HorizontalAlignment="Right"/>
+
+                                        <TextBox  Grid.Column="2" Grid.Row="5"  HorizontalAlignment="Left" Height="25" Width="200" 
+                                                  FontSize="14" HorizontalContentAlignment="Center"
+                                                  Background="AntiqueWhite" Text="{Binding XferHost, UpdateSourceTrigger=PropertyChanged}"
+                                                  VerticalAlignment="Center" Style="{x:Null}" />
+                                        <TextBox  Grid.Column="2"  Grid.Row="6"  HorizontalAlignment="Left" Height="25" Width="200" 
+                                                  FontSize="14" HorizontalContentAlignment="Center"
+                                                  Background="AntiqueWhite" Text="{Binding XferInstant, UpdateSourceTrigger=PropertyChanged}"
+                                                  VerticalAlignment="Center"  Margin="0,0,0,0"  Style="{x:Null}"/>
+                                        <TextBox  Grid.Column="2" Grid.Row="7"  HorizontalAlignment="Left" Height="25" Width="200" 
+                                                  IsEnabled="{Binding SQLAuChecked}" FontSize="14" HorizontalContentAlignment="Center"
+                                                  Background="AntiqueWhite" Text="{Binding XferUserId, UpdateSourceTrigger=PropertyChanged}"
+                                                   VerticalAlignment="Center"   Margin="0,0,0,0" Style="{x:Null}" />
+                                        <TextBox  Grid.Column="2"  Grid.Row="8"  HorizontalAlignment="Left" Height="25" Width="200" 
+                                                  IsEnabled="{Binding SQLAuChecked}" FontSize="14" HorizontalContentAlignment="Center"
+                                                  Background="AntiqueWhite" Text="{Binding XferUserPwd, UpdateSourceTrigger=PropertyChanged}"
+                                                  VerticalAlignment="Center"  Margin="0,0,0,0"  Style="{x:Null}"/>
+
+                                        <TextBox  Grid.Column="2"  Grid.Row="9"  HorizontalAlignment="Left" Height="25" Width="200" 
+                                                  FontSize="14" HorizontalContentAlignment="Center" IsReadOnly="True"
+                                                  Background="AntiqueWhite" Text="{Binding XferRtDbName, UpdateSourceTrigger=PropertyChanged}"
+                                                  VerticalAlignment="Center"  Margin="0,0,0,0"  Style="{x:Null}"/>
+                                        <TextBox  Grid.Column="2"  Grid.Row="10"  HorizontalAlignment="Left" Height="25" Width="200" 
+                                                  FontSize="14" HorizontalContentAlignment="Center" IsReadOnly="True"
+                                                  Background="AntiqueWhite" Text="{Binding XferRtTableName, UpdateSourceTrigger=PropertyChanged}"
+                                                  VerticalAlignment="Center"  Margin="0,0,0,0"  Style="{x:Null}"/>
+
+                                        <GroupBox Grid.Column="1" Grid.Row="11" Grid.ColumnSpan="4"  Foreground="Wheat" 
+                                                  BorderThickness="0" FontSize="14"  FontFamily="Verdana" >
+                                            <GroupBox.Effect>
+                                                <DropShadowEffect Color="Black" BlurRadius="10" Direction="721" ShadowDepth="1" RenderingBias="Quality" />
+                                            </GroupBox.Effect>
+                                            <Border  BorderThickness="1" CornerRadius="10" BorderBrush="Maroon" Margin="5">
+                                                <Border.Background>
+                                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                        <GradientStop Color="Black" Offset="0"/>
+                                                        <GradientStop Color="#FF535050" Offset="1"/>
+                                                    </LinearGradientBrush>
+                                                </Border.Background>
+                                                <Grid Margin="5">
+                                                    <Grid.Background>
+                                                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                            <GradientStop Color="Black" Offset="0"/>
+                                                            <GradientStop Color="#FF535050" Offset="1"/>
+                                                        </LinearGradientBrush>
+                                                    </Grid.Background>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <Button Grid.Row="0" Grid.Column="0"  Foreground="White" 
+                                                            HorizontalAlignment="Center" Margin="0" 
+                                                            Command="{Binding TestRtSqlCommand}" IsEnabled="{Binding IdleMode}"
+                                                            Style="{StaticResource RoundButtonTemplate}" Height="44" Width="100">
+                                                        <Button.Background>
+                                                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                                <GradientStop Color="Black" Offset="0"/>
+                                                                <GradientStop Color="Blue" Offset="1"/>
+                                                            </LinearGradientBrush>
+                                                        </Button.Background>
+                                                        <StackPanel>
+                                                            <MaterialDesign:PackIcon Kind="CallToAction"  HorizontalAlignment="Center"
+                                                             Foreground="White" 
+                                                             VerticalAlignment="Top" Width="22" Height="25"/>
+                                                            <TextBlock Text="Test"/>
+                                                        </StackPanel>
+                                                    </Button>
+                                                    <Button Grid.Row="0" Grid.Column="1"  Foreground="White" 
+                                                            HorizontalAlignment="Center" 
+                                                            Command="{Binding SaveRtSqlCommand}" IsEnabled="{Binding IdleMode}"
+                                                            Style="{StaticResource RoundButtonTemplate}" Height="45" Width="100">
+                                                        <Button.Background>
+                                                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                                <GradientStop Color="Black" Offset="0"/>
+                                                                <GradientStop Color="#FF5EC99D" Offset="1"/>
+                                                            </LinearGradientBrush>
+                                                        </Button.Background>
+                                                        <StackPanel>
+                                                            <MaterialDesign:PackIcon Kind="FloppyDisk"  HorizontalAlignment="Center"
+                                                             Foreground="White" 
+                                                             VerticalAlignment="Top" Width="22" Height="25"/>
+                                                            <TextBlock Text="Save"/>
+                                                        </StackPanel>
+                                                    </Button>
+                                                    <Button Grid.Row="0" Foreground="White" Grid.Column="2"  
+                                                            HorizontalAlignment="Center" 
+                                                             Command="{Binding CancelRtSqlCommand}" IsEnabled="{Binding IdleMode}"
+                                                            Style="{StaticResource RoundButtonTemplate}" Height="45" Width="100">
+                                                        <Button.Background>
+                                                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                                <GradientStop Color="Black" Offset="0"/>
+                                                                <GradientStop Color="#FFB8B82B" Offset="1"/>
+                                                            </LinearGradientBrush>
+                                                        </Button.Background>
+                                                        <StackPanel>
+                                                            <MaterialDesign:PackIcon Kind="Cancel" HorizontalAlignment="Center"
+                                                         Foreground="White" 
+                                                         VerticalAlignment="Top" Width="22" Height="25"/>
+                                                            <TextBlock Text="Cancel" Margin="0,-2,0,0"/>
+                                                        </StackPanel>
+                                                    </Button>
+                                                </Grid>
+                                            </Border>
+                                        </GroupBox>
+                                    </Grid>
+                                </GroupBox>
+                            </Grid>
+
+                        </GroupBox>
+                    </Border>
+                    <GroupBox Grid.Column="1" Grid.Row="2" Foreground="AntiqueWhite" 
+                              FontSize="14"  BorderThickness="0">
+                        <GroupBox.Effect>
+                            <DropShadowEffect Color="Black" BlurRadius="10" Direction="721" ShadowDepth="1" RenderingBias="Quality" />
+                        </GroupBox.Effect>
+                        <Border  BorderThickness="0" CornerRadius="10" BorderBrush="DimGray" Margin="5">
+                            <Border.Background>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="Black" Offset="0"/>
+                                    <GradientStop Color="#FF6D7293" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Border.Background>
+
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="0"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="0"/>
+                                    <RowDefinition Height="2"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="5"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="5"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Button Grid.Row="1" Grid.Column="1"  Foreground="White" 
+                                                HorizontalAlignment="Center" Margin="0" 
+                                                Command="{Binding TestSendRtCommand}" IsEnabled="{Binding IdleMode}"
+                                                Style="{StaticResource RoundButtonTemplate}" Height="44" Width="100">
+                                    <Button.Background>
+                                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                            <GradientStop Color="Black" Offset="0"/>
+                                            <GradientStop Color="Blue" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Button.Background>
+                                    <StackPanel>
+                                        <MaterialDesign:PackIcon Kind="CallToAction"  HorizontalAlignment="Center"
+                                                             Foreground="White" 
+                                                             VerticalAlignment="Top" Width="22" Height="25"/>
+                                        <TextBlock Text="Test"/>
+                                    </StackPanel>
+                                </Button>
+
+                                <TextBox Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="3" Text="{Binding TextStatus}"
+                                         Background="AntiqueWhite" Height="30" IsReadOnly="True">
+                                    <TextBox.Effect>
+                                        <DropShadowEffect/>
+                                    </TextBox.Effect>
+                                </TextBox>
+                            </Grid>
+                        </Border>
+                    </GroupBox>
+
+                    <GroupBox Grid.Column="2" Grid.Row="1" Grid.RowSpan="2" FontSize="14"
+                              Header="Real Time Data Fields Mapping" BorderThickness="0" Foreground="AntiqueWhite">
+                        <GroupBox.Effect>
+                            <DropShadowEffect Color="Black" BlurRadius="0" Direction="721" ShadowDepth="1" RenderingBias="Quality" />
+                        </GroupBox.Effect>
+                        <Border  BorderThickness="0" CornerRadius="10" BorderBrush="DimGray" Margin="5">
+                            <Border.Background>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="Black" Offset="0"/>
+                                    <GradientStop Color="#FF6D7293" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="50"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="100"/>
+                                    <RowDefinition Height="5"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="5"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="1"/>
+                                    <ColumnDefinition Width="4"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Border Grid.Column="1"  BorderThickness="1" CornerRadius="10" BorderBrush="Maroon" Margin="5">
+                                    <Border.Background>
+                                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                            <GradientStop Color="Black" Offset="0"/>
+                                            <GradientStop Color="#FF535050" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                    <Grid Background="gray">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="5"/>
+                                            <ColumnDefinition Width="120"/>
+                                            <ColumnDefinition Width="150"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="5"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Row="2" Grid.Column="1" Panel.ZIndex="99" VerticalAlignment="Center"
+                                       Content="Auto Transfer :" Foreground="White" HorizontalAlignment="Right">
+                                            <Label.Effect>
+                                                <DropShadowEffect/>
+                                            </Label.Effect>
+                                        </Label>
+                                        <StackPanel Background="Transparent" Grid.Row="2" Grid.Column="2" Panel.ZIndex="99"
+                                                    Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <Label Margin="0,0,0,0" Content="{Binding BaleXferStatus}" FontSize="16" Foreground="Yellow"
+                                                   VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                            <ToggleButton  Style="{StaticResource AnimatedSwitch}" Height="25" Width="50"
+                                                           IsChecked="{Binding RtXferScannerOn}" />
+                                        </StackPanel>
+
+                                        <Grid Grid.Column="3" Grid.Row="2"  Height="20"  Width="170" HorizontalAlignment="Center"
+                                      Background="#FFFF9750" Panel.ZIndex="99" Grid.ColumnSpan="2"
+                                      Opacity="{Binding ShowMe,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}">
+                                            <TextBox x:Name="txtRunning" Background="Transparent"  FontSize="12"  
+                                                Foreground="White"  BorderThickness="0" Text="Transfer Running" />
+                                        </Grid>
+                                    </Grid>
+                                </Border>
+
+                                <ListView Grid.Row="1" Grid.Column="1" Style="{x:Null}" ItemsSource="{Binding SqlOutputFields}"
+                                          SelectedIndex="{Binding SelectedLstViewIndex}" IsEnabled="{Binding BModify}"
+                                          SelectedItem="{Binding SelectedLstViewVal}" Margin="5"
+                                          GridViewColumnHeader.Click="GridViewColumnHeaderClickedHandler"  >
+                                    <ListView.ItemContainerStyle>
+                                        <Style TargetType="{x:Type ListViewItem}">
+                                            <Setter Property="Margin" Value="10,0,0,0"/>
+                                            <Setter Property="Padding" Value="0,2"/>
+                                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                            <Setter Property="BorderBrush" Value="Gray"/>
+                                            <Setter Property="BorderThickness" Value="0,0,0,0"/>
+
+                                        </Style>
+                                    </ListView.ItemContainerStyle>
+                                    <ListView.View>
+                                        <GridView  x:Name="grdField" ColumnHeaderContainerStyle="{x:Null}" >
+                                            <GridViewColumn Header="Client Fields" Width="200" >
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <Border BorderBrush="Gray" BorderThickness=".5" Margin="-2,-3">
+                                                            <TextBlock Text="{Binding ClientFieldName}" Margin="16,5"/>
+                                                        </Border>
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+
+                                            </GridViewColumn>
+                                            <GridViewColumn Header="Forte Fields" Width="200" >
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <Border BorderBrush="Gray" BorderThickness=".5" Margin="-2,-3">
+                                                            <TextBlock Text="{Binding ForteFieldName}" Margin="16,5"/>
+                                                        </Border>
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+
+                                            </GridViewColumn>
+                                        </GridView>
+                                    </ListView.View>
+                                </ListView>
+
+                                <GroupBox Header="Mapping"  Grid.Column="1" Grid.Row="2" Foreground="White" 
+                                            BorderThickness="0" FontSize="14"  FontFamily="Verdana" >
+                                    <GroupBox.Effect>
+                                        <DropShadowEffect Color="Black" BlurRadius="10" Direction="721" ShadowDepth="1" RenderingBias="Quality" />
+                                    </GroupBox.Effect>
+                                    <Border  BorderThickness="1" CornerRadius="10" BorderBrush="Maroon" Margin="5">
+                                        <Border.Background>
+                                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                <GradientStop Color="Black" Offset="0"/>
+                                                <GradientStop Color="#FF535050" Offset="1"/>
+                                            </LinearGradientBrush>
+                                        </Border.Background>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="120"/>
+                                                <ColumnDefinition Width="120"/>
+                                                <ColumnDefinition Width="120"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <Button Grid.Row="4" Foreground="White" Grid.Column="1"  
+                                                    HorizontalAlignment="Center" 
+                                                     Command="{Binding CancelCommand}" IsEnabled="{Binding IdleMode}"
+                                                    Style="{StaticResource RoundButtonTemplate}" Height="45" Width="100">
+                                                <Button.Background>
+                                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                        <GradientStop Color="Black" Offset="0"/>
+                                                        <GradientStop Color="#FFB8B82B" Offset="1"/>
+                                                    </LinearGradientBrush>
+                                                </Button.Background>
+                                                <StackPanel>
+                                                    <MaterialDesign:PackIcon Kind="Cancel" HorizontalAlignment="Center"
+                                                         Foreground="White" 
+                                                         VerticalAlignment="Top" Width="22" Height="25"/>
+                                                    <TextBlock Text="Cancel" Margin="0,-2,0,0"/>
+                                                </StackPanel>
+                                            </Button>
+
+                                            <Button Grid.Row="4" Grid.Column="2"  Foreground="White" 
+                                                    HorizontalAlignment="Center"  
+                                                    Command="{Binding ModifyCommand}" IsEnabled="true"
+                                                    Style="{StaticResource RoundButtonTemplate}" Height="45" Width="100">
+                                                <Button.Background>
+                                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                        <GradientStop Color="Black" Offset="0"/>
+                                                        <GradientStop Color="Orange" Offset="1"/>
+                                                    </LinearGradientBrush>
+                                                </Button.Background>
+                                                <StackPanel>
+                                                    <MaterialDesign:PackIcon Kind="Edit"  HorizontalAlignment="Center"
+                                                     Foreground="White" 
+                                                     VerticalAlignment="Top" Width="22" Height="25"/>
+                                                    <TextBlock Text="Modify"/>
+                                                </StackPanel>
+                                            </Button>
+
+                                            <Button Grid.Row="4" Grid.Column="3"  Foreground="White" 
+                                                    HorizontalAlignment="Center" 
+                                                    Command="{Binding SaveRtTableCommand}" IsEnabled="{Binding IdleMode}"
+                                                    Style="{StaticResource RoundButtonTemplate}" Height="45" Width="100">
+                                                <Button.Background>
+                                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                        <GradientStop Color="Black" Offset="0"/>
+                                                        <GradientStop Color="#FF5EC99D" Offset="1"/>
+                                                    </LinearGradientBrush>
+                                                </Button.Background>
+                                                <StackPanel>
+                                                    <MaterialDesign:PackIcon Kind="FloppyDisk"  HorizontalAlignment="Center"
+                                                     Foreground="White" 
+                                                     VerticalAlignment="Top" Width="22" Height="25"/>
+                                                    <TextBlock Text="Save"/>
+                                                </StackPanel>
+                                            </Button>
+                                        </Grid>
+                                    </Border>
+                                </GroupBox>
+                            </Grid>
+                        </Border>
+                    </GroupBox>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Wet Layer SQL Data Transfer" IsEnabled="{Binding WlTabEnable}" Width="{Binding WlTabWidth}">
+                <Grid  Background="Black">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="10*"/>
+                        <ColumnDefinition Width="500"/>
+                        <ColumnDefinition Width="500"/>
+                        <ColumnDefinition Width="10*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="5*"/>
+                        <RowDefinition Height="470"/>
+                        <RowDefinition Height="90"/>
+                        <RowDefinition Height="5*"/>
+                    </Grid.RowDefinitions>
+
+                    <Border Grid.Row="1" Grid.Column="1" BorderThickness="1" IsEnabled="{Binding WlIdleMode}" 
+                            CornerRadius="15" BorderBrush="Maroon" Margin="5" >
+                        <Border.Background>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="Black" Offset="0"/>
+                                <GradientStop Color="#FF997D7D" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <GroupBox  BorderThickness="0" IsEnabled="{Binding IdleMode}"
+                              HorizontalAlignment="Stretch"  FontSize="14"  Foreground="AntiqueWhite">
+                            <Grid >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="5"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="0"/>
+                                    <ColumnDefinition Width="5"/>
+                                </Grid.ColumnDefinitions>
+
+                                <GroupBox Grid.Column="1" BorderThickness="0" Header="Client SQL Server for Bale Data" >
+                                    <GroupBox.Effect>
+                                        <DropShadowEffect Color="Black" BlurRadius="10" Direction="721" ShadowDepth="1" RenderingBias="Quality" />
+                                    </GroupBox.Effect>
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="2"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="80"/>
+                                            <RowDefinition Height="2"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="2"/>
+                                            <ColumnDefinition Width="160"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="0"/>
+                                            <ColumnDefinition Width="0"/>
+                                            <ColumnDefinition Width="2"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Button  Content="Search" Command="{Binding SearchWlCommand}" Grid.Column="1" Grid.Row="1"
+                                                ToolTip="Get the list of Sql Servers on the Network!"  Cursor="Hand" 
+                                                    HorizontalAlignment="Right" Panel.ZIndex="99" 
+                                                Margin="0,0,10,0" Width="100" Height="25" FontSize="14" FontFamily="Arial">
+                                            <Button.Background>
+                                                <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                                                    <GradientStop Color="#FFF3F3F3" Offset="0"/>
+                                                    <GradientStop Color="#FFEBEBEB" Offset="0.5"/>
+                                                    <GradientStop Color="#FFDDDDDD" Offset="0.5"/>
+                                                    <GradientStop Color="#FFB98907" Offset="1"/>
+                                                </LinearGradientBrush>
+                                            </Button.Background>
+                                        </Button>
+                                        <ComboBox Cursor="Hand" Margin="0,0,0,0" Grid.Column="2" Grid.Row="1" Panel.ZIndex="99" 
+                                                      ItemsSource="{Binding WlServercomboList}" IsEnabled="{Binding SearchWlDone}"
+                                                      Style="{StaticResource MyCombobox}" SelectedValue="{Binding XferWlServerName}"
+                                                      SelectedIndex="{Binding SelectedWlServerIdx, UpdateSourceTrigger=PropertyChanged}"
+                                                  HorizontalAlignment="Left"
+                                                      VerticalAlignment="Center" Width="200"  FontSize="14">
+                                            <ComboBox.Background>
+                                                <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                                                    <GradientStop Color="#FFF3F3F3" Offset="0"/>
+                                                    <GradientStop Color="#FFEBEBEB" Offset="0.5"/>
+                                                    <GradientStop Color="#FFDDDDDD" Offset="0.5"/>
+                                                    <GradientStop Color="White" Offset="1"/>
+                                                </LinearGradientBrush>
+                                            </ComboBox.Background>
+                                        </ComboBox>
+
+                                        <Button Grid.Column="1" Grid.Row="2"  Content="DataBase" HorizontalAlignment="Right"  
+                                                VerticalAlignment="Center" Foreground="black" Command="{Binding SelectWlDbCommand}"
+                                                Width="100" Height="25" FontSize="14" FontFamily="Arial" Margin="0,0,10,0" Panel.ZIndex="99" >
+                                            <Button.Background>
+                                                <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                                                    <GradientStop Color="#FFF3F3F3" Offset="0"/>
+                                                    <GradientStop Color="#FFEBEBEB" Offset="0.5"/>
+                                                    <GradientStop Color="#FFDDDDDD" Offset="0.5"/>
+                                                    <GradientStop Color="#FFB98907" Offset="1"/>
+                                                </LinearGradientBrush>
+                                            </Button.Background>
+                                        </Button>
+
+                                        <ComboBox  Grid.Column="2" Grid.Row="2" HorizontalAlignment="Left" Height="25" Panel.ZIndex="99" 
+                                                   ItemsSource="{Binding DbWlcomboList}" Cursor="Hand" SelectedValue="{Binding XferWlDbName}"
+                                                   Background="AntiqueWhite"  Style="{StaticResource MyCombobox}" SelectedIndex="{Binding WlDbIndex}"
+                                                   Margin="0"  VerticalAlignment="Center"  Width="200"/>
+
+                                        <Button Grid.Column="1" Grid.Row="3"  Content="Table" HorizontalAlignment="Right" Panel.ZIndex="99"  
+                                                VerticalAlignment="Center" Foreground="black" Command="{Binding SelectWlTableCommand}"
+                                                Width="100" Height="25" FontSize="14" FontFamily="Arial" Margin="0,0,10,0" >
+                                            <Button.Background>
+                                                <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                                                    <GradientStop Color="#FFF3F3F3" Offset="0"/>
+                                                    <GradientStop Color="#FFEBEBEB" Offset="0.5"/>
+                                                    <GradientStop Color="#FFDDDDDD" Offset="0.5"/>
+                                                    <GradientStop Color="#FFB98907" Offset="1"/>
+                                                </LinearGradientBrush>
+                                            </Button.Background>
+                                        </Button>
+
+                                        <ComboBox Grid.Column="2" Grid.Row="3"  HorizontalAlignment="Left" Height="25" 
+                                                  ItemsSource="{Binding TableWlcomboList}" Cursor="Hand" SelectedValue="{Binding XferWlTableName}"                                              
+                                                  Background="AntiqueWhite"  Style="{StaticResource MyCombobox}" SelectedIndex="{Binding WlTableIndex}"
+                                                  Margin="0"  VerticalAlignment="Center"  Width="200"  Panel.ZIndex="99" />
+
+                                        <Border Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="4" 
+                                                CornerRadius="10" BorderBrush="Maroon">
+                                            <Border.Background>
+                                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                    <GradientStop Color="Black" Offset="0"/>
+                                                    <GradientStop Color="#FF535050" Offset="1"/>
+                                                </LinearGradientBrush>
+                                            </Border.Background>
+                                            <Rectangle  Margin="0"/>
+                                        </Border>
+                                        <StackPanel Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="4" Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <RadioButton   VerticalContentAlignment="Center"
+                                                        IsChecked="{Binding WlWinAuChecked}"
+                                                        Foreground="White" Content="Windows authentication" GroupName="WlSqlConnect"/>
+                                            <RadioButton  VerticalContentAlignment="Center"
+                                                        IsChecked="{Binding WlSQLAuChecked}" Margin="20,0,0,0"
+                                                        Foreground="White" Content="SQL authentication" GroupName="WlSqlConnect"/>
+                                        </StackPanel>
+
+                                        <Label Grid.Row="5" Grid.Column="1" Content="RemoteHost :" VerticalAlignment="Center"
+                                               Foreground="White" HorizontalAlignment="Right"/>
+                                        <Label Grid.Row="6" Grid.Column="1" Content="Instance :" VerticalAlignment="Center"
+                                               Foreground="White" HorizontalAlignment="Right"/>
+                                        <Label Grid.Row="7" Grid.Column="1" Content="User :" VerticalAlignment="Center"
+                                               Foreground="White" HorizontalAlignment="Right"/>
+                                        <Label Grid.Row="8" Grid.Column="1" Content="Password :" VerticalAlignment="Center"
+                                               Foreground="White" HorizontalAlignment="Right"/>
+                                        <Label Grid.Row="9" Grid.Column="1" Content="Database :" VerticalAlignment="Center"
+                                               Foreground="White" HorizontalAlignment="Right"/>
+                                        <Label Grid.Row="10" Grid.Column="1" Content="DataTable :" VerticalAlignment="Center"
+                                               Foreground="White" HorizontalAlignment="Right"/>
+
+                                        <TextBox  Grid.Column="2" Grid.Row="5"  HorizontalAlignment="Left" Height="25" Width="200" 
+                                                  FontSize="14" HorizontalContentAlignment="Center"
+                                                  Background="AntiqueWhite" Text="{Binding XferWlHost, UpdateSourceTrigger=PropertyChanged}"
+                                                  VerticalAlignment="Center" Style="{x:Null}" />
+                                        <TextBox  Grid.Column="2"  Grid.Row="6"  HorizontalAlignment="Left" Height="25" Width="200" 
+                                                  FontSize="14" HorizontalContentAlignment="Center"
+                                                  Background="AntiqueWhite" Text="{Binding XferWlInstant, UpdateSourceTrigger=PropertyChanged}"
+                                                  VerticalAlignment="Center"  Margin="0,0,0,0"  Style="{x:Null}"/>
+                                        <TextBox  Grid.Column="2" Grid.Row="7"  HorizontalAlignment="Left" Height="25" Width="200" 
+                                                  IsEnabled="{Binding SQLAuChecked}" FontSize="14" HorizontalContentAlignment="Center"
+                                                  Background="AntiqueWhite" Text="{Binding XferWlUserId, UpdateSourceTrigger=PropertyChanged}"
+                                                   VerticalAlignment="Center"   Margin="0,0,0,0" Style="{x:Null}" />
+                                        <TextBox  Grid.Column="2"  Grid.Row="8"  HorizontalAlignment="Left" Height="25" Width="200" 
+                                                  IsEnabled="{Binding SQLAuChecked}" FontSize="14" HorizontalContentAlignment="Center"
+                                                  Background="AntiqueWhite" Text="{Binding XferWlUserPwd, UpdateSourceTrigger=PropertyChanged}"
+                                                  VerticalAlignment="Center"  Margin="0,0,0,0"  Style="{x:Null}"/>
+
+                                        <TextBox  Grid.Column="2"  Grid.Row="9"  HorizontalAlignment="Left" Height="25" Width="200" 
+                                                  FontSize="14" HorizontalContentAlignment="Center" IsReadOnly="True"
+                                                  Background="AntiqueWhite" Text="{Binding XferWlDbName, UpdateSourceTrigger=PropertyChanged}"
+                                                  VerticalAlignment="Center"  Margin="0,0,0,0"  Style="{x:Null}"/>
+                                        <TextBox  Grid.Column="2"  Grid.Row="10"  HorizontalAlignment="Left" Height="25" Width="200" 
+                                                  FontSize="14" HorizontalContentAlignment="Center" IsReadOnly="True"
+                                                  Background="AntiqueWhite" Text="{Binding XferWlTableName, UpdateSourceTrigger=PropertyChanged}"
+                                                  VerticalAlignment="Center"  Margin="0,0,0,0"  Style="{x:Null}"/>
+
+                                        <GroupBox Grid.Column="1" Grid.Row="11" Grid.ColumnSpan="4"  Foreground="Wheat" 
+                                                  BorderThickness="0" FontSize="14"  FontFamily="Verdana" >
+                                            <GroupBox.Effect>
+                                                <DropShadowEffect Color="Black" BlurRadius="10" Direction="721" ShadowDepth="1" RenderingBias="Quality" />
+                                            </GroupBox.Effect>
+                                            <Border  BorderThickness="1" CornerRadius="10" BorderBrush="Maroon" Margin="5">
+                                                <Border.Background>
+                                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                        <GradientStop Color="Black" Offset="0"/>
+                                                        <GradientStop Color="#FF535050" Offset="1"/>
+                                                    </LinearGradientBrush>
+                                                </Border.Background>
+                                                <Grid Margin="5">
+                                                    <Grid.Background>
+                                                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                            <GradientStop Color="Black" Offset="0"/>
+                                                            <GradientStop Color="#FF535050" Offset="1"/>
+                                                        </LinearGradientBrush>
+                                                    </Grid.Background>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <Button Grid.Row="0" Grid.Column="0"  Foreground="White" 
+                                                            HorizontalAlignment="Center" Margin="0" 
+                                                            Command="{Binding TestWlSqlCommand}" IsEnabled="{Binding IdleMode}"
+                                                            Style="{StaticResource RoundButtonTemplate}" Height="44" Width="100">
+                                                        <Button.Background>
+                                                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                                <GradientStop Color="Black" Offset="0"/>
+                                                                <GradientStop Color="Blue" Offset="1"/>
+                                                            </LinearGradientBrush>
+                                                        </Button.Background>
+                                                        <StackPanel>
+                                                            <MaterialDesign:PackIcon Kind="CallToAction"  HorizontalAlignment="Center"
+                                                             Foreground="White" 
+                                                             VerticalAlignment="Top" Width="22" Height="25"/>
+                                                            <TextBlock Text="Test"/>
+                                                        </StackPanel>
+                                                    </Button>
+                                                    <Button Grid.Row="0" Grid.Column="1"  Foreground="White" 
+                                                            HorizontalAlignment="Center" 
+                                                            Command="{Binding SaveWlSqlCommand}" IsEnabled="{Binding IdleMode}"
+                                                            Style="{StaticResource RoundButtonTemplate}" Height="45" Width="100">
+                                                        <Button.Background>
+                                                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                                <GradientStop Color="Black" Offset="0"/>
+                                                                <GradientStop Color="#FF5EC99D" Offset="1"/>
+                                                            </LinearGradientBrush>
+                                                        </Button.Background>
+                                                        <StackPanel>
+                                                            <MaterialDesign:PackIcon Kind="FloppyDisk"  HorizontalAlignment="Center"
+                                                             Foreground="White" 
+                                                             VerticalAlignment="Top" Width="22" Height="25"/>
+                                                            <TextBlock Text="Save"/>
+                                                        </StackPanel>
+                                                    </Button>
+                                                    <Button Grid.Row="0" Foreground="White" Grid.Column="2"  
+                                                            HorizontalAlignment="Center" 
+                                                             Command="{Binding CancelWlSqlCommand}" IsEnabled="{Binding IdleMode}"
+                                                            Style="{StaticResource RoundButtonTemplate}" Height="45" Width="100">
+                                                        <Button.Background>
+                                                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                                <GradientStop Color="Black" Offset="0"/>
+                                                                <GradientStop Color="#FFB8B82B" Offset="1"/>
+                                                            </LinearGradientBrush>
+                                                        </Button.Background>
+                                                        <StackPanel>
+                                                            <MaterialDesign:PackIcon Kind="Cancel" HorizontalAlignment="Center"
+                                                         Foreground="White" 
+                                                         VerticalAlignment="Top" Width="22" Height="25"/>
+                                                            <TextBlock Text="Cancel" Margin="0,-2,0,0"/>
+                                                        </StackPanel>
+                                                    </Button>
+                                                </Grid>
+                                            </Border>
+                                        </GroupBox>
+                                    </Grid>
+                                </GroupBox>
+                            </Grid>
+                        </GroupBox>
+                    </Border>
+
+                    <Border Grid.Column="1" Grid.Row="2" IsEnabled="{Binding WlIdleMode}" 
+                            BorderThickness="0" CornerRadius="10" BorderBrush="DimGray" Margin="6">
+                        <Border.Background>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="Black" Offset="0"/>
+                                <GradientStop Color="#FF6D7293" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="0"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="0"/>
+                                <RowDefinition Height="2"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="5"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition Width="5"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Button Grid.Row="1" Grid.Column="1"  Foreground="White" 
+                                                HorizontalAlignment="Center" Margin="0" 
+                                                Command="{Binding TestSendWlCommand}" IsEnabled="{Binding IdleMode}"
+                                                Style="{StaticResource RoundButtonTemplate}" Height="44" Width="100">
+                                <Button.Background>
+                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                        <GradientStop Color="Black" Offset="0"/>
+                                        <GradientStop Color="Blue" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Button.Background>
+                                <StackPanel>
+                                    <MaterialDesign:PackIcon Kind="CallToAction"  HorizontalAlignment="Center"
+                                                             Foreground="White" 
+                                                             VerticalAlignment="Top" Width="22" Height="25"/>
+                                    <TextBlock Text="Test"/>
+                                </StackPanel>
+                            </Button>
+
+                            <TextBox Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="3" Text="{Binding WlTextStatus}"
+                                         Background="AntiqueWhite" Height="30" IsReadOnly="True">
+                                <TextBox.Effect>
+                                    <DropShadowEffect/>
+                                </TextBox.Effect>
+                            </TextBox>
+                        </Grid>
+                    </Border>
+
+                    <GroupBox Grid.Column="2" Grid.Row="1" Grid.RowSpan="2" FontSize="14"
+                               Header="Wet Layer Data Fields Mapping" BorderThickness="0" Foreground="AntiqueWhite">
+
+                        <Border  BorderThickness="0" CornerRadius="10" BorderBrush="DimGray" Margin="5">
+                            <Border.Background>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="Black" Offset="0"/>
+                                    <GradientStop Color="#FF6D7293" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="50"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="100"/>
+                                    <RowDefinition Height="5"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="5"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="1"/>
+                                    <ColumnDefinition Width="4"/>
+                                </Grid.ColumnDefinitions>
+
+
+                                <Border Grid.Column="1"  BorderThickness="1" CornerRadius="10" BorderBrush="Maroon" Margin="5">
+                                    <Border.Background>
+                                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                            <GradientStop Color="Black" Offset="0"/>
+                                            <GradientStop Color="#FF535050" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                    <Grid Background="gray">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="5"/>
+                                            <ColumnDefinition Width="120"/>
+                                            <ColumnDefinition Width="150"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="5"/>
+                                        </Grid.ColumnDefinitions>
+                                        
+                                        <Label Grid.Row="2" Grid.Column="1" Panel.ZIndex="99" VerticalAlignment="Center"
+                                                Content="Auto Transfer :" Foreground="White" HorizontalAlignment="Right">
+                                            <Label.Effect>
+                                                <DropShadowEffect/>
+                                            </Label.Effect>
+                                        </Label>
+                                        <StackPanel Background="Transparent" Grid.Row="2" Grid.Column="2" Panel.ZIndex="99"
+                                                    Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <Label Margin="0,0,0,0" Content="{Binding WLXferStatus}" FontSize="16" Foreground="Yellow"
+                                                   VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                            <ToggleButton  Style="{StaticResource AnimatedSwitch}" Height="25" Width="50"
+                                                           IsChecked="{Binding WlXferScannerOn}" />
+                                        </StackPanel>
+
+                                        <Grid Grid.Column="3" Grid.Row="2"  Height="20"  Width="170" HorizontalAlignment="Center"
+                                                  Background="#FFFF9750" Panel.ZIndex="99" Grid.ColumnSpan="2"
+                                                  Opacity="{Binding ShowMe,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}">
+                                            <TextBox  Background="Transparent"  FontSize="12"  
+                                                    Foreground="White"  BorderThickness="0" Text="Transfer Running" />
+                                        </Grid>
+                                    </Grid>
+                                </Border>
+
+
+                                <ListView Grid.Row="1" Grid.Column="1" Style="{x:Null}" ItemsSource="{Binding WlSqlOutputFields}"
+                                          SelectedIndex="{Binding SelectedWlLstViewIndex}" IsEnabled="{Binding BWlModify}"
+                                          SelectedItem="{Binding SelectedWlLstViewVal}" Margin="5"
+                                          GridViewColumnHeader.Click="GridViewWlColumnHeaderClickedHandler"  >
+                                    <ListView.ItemContainerStyle>
+                                        <Style TargetType="{x:Type ListViewItem}">
+                                            <Setter Property="Margin" Value="10,0,0,0"/>
+                                            <Setter Property="Padding" Value="0,2"/>
+                                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                            <Setter Property="BorderBrush" Value="Gray"/>
+                                            <Setter Property="BorderThickness" Value="0,0,0,0"/>
+
+                                        </Style>
+                                    </ListView.ItemContainerStyle>
+                                    <ListView.View>
+                                        <GridView  ColumnHeaderContainerStyle="{x:Null}" >
+                                            <GridViewColumn Header="Client Fields" Width="200" >
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <Border BorderBrush="Gray" BorderThickness=".5" Margin="-2,-3">
+                                                            <TextBlock Text="{Binding ClientFieldName}" Margin="16,5"/>
+                                                        </Border>
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+
+                                            </GridViewColumn>
+                                            <GridViewColumn Header="Forte Fields" Width="200" >
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <Border BorderBrush="Gray" BorderThickness=".5" Margin="-2,-3">
+                                                            <TextBlock Text="{Binding ForteFieldName}" Margin="16,5"/>
+                                                        </Border>
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+
+                                            </GridViewColumn>
+                                        </GridView>
+                                    </ListView.View>
+                                </ListView>
+
+                                <GroupBox Header="Mapping"  Grid.Column="1" Grid.Row="2" Foreground="White" 
+                                          IsEnabled="{Binding WlIdleMode}" 
+                                          BorderThickness="0" FontSize="14"  FontFamily="Verdana" >
+                                    <GroupBox.Effect>
+                                        <DropShadowEffect Color="Black" BlurRadius="10" Direction="721" ShadowDepth="1" RenderingBias="Quality" />
+                                    </GroupBox.Effect>
+                                    <Border  BorderThickness="1" CornerRadius="10" BorderBrush="Maroon" Margin="5">
+                                        <Border.Background>
+                                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                <GradientStop Color="Black" Offset="0"/>
+                                                <GradientStop Color="#FF535050" Offset="1"/>
+                                            </LinearGradientBrush>
+                                        </Border.Background>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="120"/>
+                                                <ColumnDefinition Width="120"/>
+                                                <ColumnDefinition Width="120"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <Button Grid.Row="4" Foreground="White" Grid.Column="1"  
+                                                    HorizontalAlignment="Center" 
+                                                     Command="{Binding CancelWlCommand}" IsEnabled="{Binding IdleMode}"
+                                                    Style="{StaticResource RoundButtonTemplate}" Height="45" Width="100">
+                                                <Button.Background>
+                                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                        <GradientStop Color="Black" Offset="0"/>
+                                                        <GradientStop Color="#FFB8B82B" Offset="1"/>
+                                                    </LinearGradientBrush>
+                                                </Button.Background>
+                                                <StackPanel>
+                                                    <MaterialDesign:PackIcon Kind="Cancel" HorizontalAlignment="Center"
+                                                         Foreground="White" 
+                                                         VerticalAlignment="Top" Width="22" Height="25"/>
+                                                    <TextBlock Text="Cancel" Margin="0,-2,0,0"/>
+                                                </StackPanel>
+                                            </Button>
+
+                                            <Button Grid.Row="4" Grid.Column="2"  Foreground="White" 
+                                                    HorizontalAlignment="Center"  
+                                                    Command="{Binding ModifyWlCommand}" IsEnabled="true"
+                                                    Style="{StaticResource RoundButtonTemplate}" Height="45" Width="100">
+                                                <Button.Background>
+                                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                        <GradientStop Color="Black" Offset="0"/>
+                                                        <GradientStop Color="Orange" Offset="1"/>
+                                                    </LinearGradientBrush>
+                                                </Button.Background>
+                                                <StackPanel>
+                                                    <MaterialDesign:PackIcon Kind="Edit"  HorizontalAlignment="Center"
+                                                     Foreground="White" 
+                                                     VerticalAlignment="Top" Width="22" Height="25"/>
+                                                    <TextBlock Text="Modify"/>
+                                                </StackPanel>
+                                            </Button>
+
+                                            <Button Grid.Row="4" Grid.Column="3"  Foreground="White" 
+                                                    HorizontalAlignment="Center" 
+                                                    Command="{Binding SaveWlTableCommand}" IsEnabled="{Binding IdleMode}"
+                                                    Style="{StaticResource RoundButtonTemplate}" Height="45" Width="100">
+                                                <Button.Background>
+                                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                        <GradientStop Color="Black" Offset="0"/>
+                                                        <GradientStop Color="#FF5EC99D" Offset="1"/>
+                                                    </LinearGradientBrush>
+                                                </Button.Background>
+                                                <StackPanel>
+                                                    <MaterialDesign:PackIcon Kind="FloppyDisk"  HorizontalAlignment="Center"
+                                                     Foreground="White" 
+                                                     VerticalAlignment="Top" Width="22" Height="25"/>
+                                                    <TextBlock Text="Save"/>
+                                                </StackPanel>
+                                            </Button>
+                                        </Grid>
+                                    </Border>
+                                </GroupBox>
+
+
+                            </Grid>
+                        </Border>
+                    </GroupBox>
+                    
+                    
+                    
+                </Grid>
+            </TabItem>
+        </TabControl>
+
+
+
+
+
+
+
+
+
+
+
+    </Grid>
+</UserControl>

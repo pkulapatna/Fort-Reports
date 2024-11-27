@@ -1,0 +1,108 @@
+﻿
+
+            <GroupBox Grid.Row="4" BorderThickness="0"   Header="Production Date or Real Time Date"
+                      Foreground="AntiqueWhite" FontSize="14" Visibility="Hidden" IsEnabled="False">
+                <GroupBox.Effect>
+                    <DropShadowEffect Color="Black" BlurRadius="10" Direction="721" ShadowDepth="1" RenderingBias="Quality" />
+                </GroupBox.Effect>
+                <Border  BorderThickness="0" CornerRadius="10" BorderBrush="Maroon" Margin="5">
+                    <Border.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="Black" Offset="0"/>
+                            <GradientStop Color="#FF535050" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Border.Background>
+                    <Grid Margin="3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="5"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="5"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="10"/>
+                            <RowDefinition Height="0"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="0"/>
+                            <RowDefinition Height="15"/>
+                        </Grid.RowDefinitions>
+
+                        <Label Grid.Row="2" Grid.Column="1" Content="Selections" VerticalAlignment="Center" FontSize="14"
+                           Foreground="White" FontWeight="Medium" HorizontalAlignment="Center" Panel.ZIndex="99"/>
+
+                        <RadioButton Grid.Row="2" Grid.Column="2" Content="Realtime" VerticalContentAlignment="Center"
+                                     Style="{StaticResource RadioButtonRed}" IsChecked="{Binding SelectRealtime}"
+                                     VerticalAlignment="Center" Foreground="Yellow" Margin="10,0,0,0" GroupName="RepTime"/>
+
+                        <RadioButton Grid.Row="2" Grid.Column="3" Content="Production" VerticalContentAlignment="Center"
+                                     Style="{StaticResource RadioButtonRed}" IsChecked="{Binding SelectProdtime}"
+                                     VerticalAlignment="Center" Foreground="Yellow" Margin="0,0,0,0" GroupName="RepTime"/>
+                    </Grid>
+                </Border>
+            </GroupBox>
+
+
+            <GroupBox Grid.Column="1" Grid.Row="5" Header="Scan Timer Settings" Visibility="Visible" IsEnabled="False"
+                          Foreground="Wheat"  FontSize="14" BorderThickness="0">
+                <GroupBox.Effect>
+                    <DropShadowEffect Color="Black" BlurRadius="10" Direction="721" ShadowDepth="1" RenderingBias="Quality" />
+                </GroupBox.Effect>
+                <Border  BorderThickness="0" CornerRadius="10" BorderBrush="Maroon" Margin="5">
+                    <Border.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="Black" Offset="0"/>
+                            <GradientStop Color="#FF535050" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Border.Background>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="5"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="5"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="5"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="5"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="5"/>
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Grid.Column="1" Grid.Row="1" Margin="10,0,10,0"
+                                    Grid.ColumnSpan="3" Orientation="Horizontal" Panel.ZIndex="99">
+                            <MaterialDesign:PackIcon Grid.Row="2" Grid.Column="0"  Kind="AlarmClock"  
+                                                     Margin="30,0,0,0" Foreground="Yellow"
+                                                 VerticalAlignment="Center" HorizontalAlignment="Center" Width="25" Height="25"/>
+                            <Label Content="Scan Period (600 Sec. = 10 minutes. Max)" VerticalAlignment="Center"
+                                   HorizontalAlignment="Center" Foreground="White" FontSize="14"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
+                            <xctk:IntegerUpDown Grid.Row="2" Width="70" Height="25" IsEnabled="{Binding BModify}" FontSize="18"
+                                            HorizontalAlignment="Right" Background="AntiqueWhite" HorizontalContentAlignment="Left"
+                                            Text="{Binding ScanRateRt, UpdateSourceTrigger=PropertyChanged}"/>
+                            <Label Grid.Column="2" Grid.Row="2" Margin="0,0,0,0" HorizontalAlignment="left" 
+                               VerticalAlignment="Center" Content="Second(s)" Foreground="White"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="2" Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Center">
+                            <xctk:IntegerUpDown Grid.Row="2" Width="70" Height="25" IsEnabled="{Binding BModify}" FontSize="18"
+                                            HorizontalAlignment="Right" Background="AntiqueWhite" HorizontalContentAlignment="Left"
+                                            Text="{Binding ScanRateWl, UpdateSourceTrigger=PropertyChanged}" />
+                            <Label Grid.Column="2" Grid.Row="2" Margin="0,0,0,0" HorizontalAlignment="left" 
+                               VerticalAlignment="Center" Content="Second(s)" Foreground="White"/>
+                        </StackPanel>
+
+                        <Rectangle Grid.Column="1" Grid.Row="1"  Grid.ColumnSpan="3" Height="40"   RadiusX="0" RadiusY="0"
+                               Fill="Black"/>
+                        <Rectangle Grid.Column="2" Grid.Row="2"  Width="2"  RadiusX="0" RadiusY="0"
+                               Fill="Black"/>
+
+
+                        
+                    </Grid>
+                </Border>
+
+            </GroupBox>

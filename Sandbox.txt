@@ -1,0 +1,277 @@
+﻿                  
+         <TabItem BorderThickness="0">
+                <TabItem.Header >
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <TextBlock Text="MAIN" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </TabItem.Header>
+                <Grid  VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="black">
+                    
+                </Grid>
+            </TabItem>
+
+
+            // if-else construction.
+            if (input < 0)
+                classify = "negative";
+            else
+                classify = "positive";
+
+            // ?: conditional operator.
+            classify = (input < 0) ? "negative" : "positive";
+
+            
+        /// <summary>
+        /// Demand Mode
+        /// </summary>
+        /// <param name="SelectedMode"></param>
+        /// <param name="DateOrHour"></param>
+        /// <param name="HourSelect"></param>
+        /// <returns></returns>
+        internal DataTable GetDataForDemandMode(int SelectedMode, DateTime? DateOrHour, DateTime HourSelect)
+        {
+            DataTable MydataTab = new DataTable();
+
+            string StrTableName = string.Empty;
+            string LiveRepQuery = string.Empty;
+
+            DateTime timeNow = DateTime.Now;
+            DateTime Datesel = (DateTime)DateOrHour;
+            var SelDay = Datesel.ToString("dd");
+
+            string strQuery = string.Empty;
+
+            DateTime TimeStart = DateTime.Now;
+            DateTime TimeEnd = DateTime.Now;
+
+            //Start should be before End
+            if (ClsCommon.HourStart > ClsCommon.HourEnd)
+            {
+                ClsCommon.HourStart = ClsCommon.HourEnd.AddHours(-1);
+            }
+            var PerHrStart = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, ClsCommon.HourStart.Hour, ClsCommon.HourStart.Minute, 00);
+            var PerHrEnd = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, ClsCommon.HourEnd.Hour, ClsCommon.HourEnd.Minute, 00);
+
+            var d3 = new DateTime(Datesel.Year, Datesel.Month, Datesel.Day, DayEndTime.Hour, DayEndTime.Minute, 00);
+            CurrProdDayEnd = d3;
+            PrevProdDayEnd = d3.AddDays(-1);
+            NextProdDayEnd = d3.AddDays(1);
+
+            DayStart = PrevProdDayEnd;
+            DayEnd = CurrProdDayEnd;
+
+            ShiftOneEnd = new DateTime(d3.Year, d3.Month, d3.Day, ClsCommon.ShiftOneEnd.Hour, ClsCommon.ShiftOneEnd.Minute, 00);
+            ShiftTwoEnd = new DateTime(d3.Year, d3.Month, d3.Day, ClsCommon.ShiftTwoEnd.Hour, ClsCommon.ShiftTwoEnd.Minute, 00);
+
+            ShiftTwotoThreeEnd = new DateTime(PrevProdDayEnd.Year, PrevProdDayEnd.Month, PrevProdDayEnd.Day, ClsCommon.ShiftTwoEnd.Hour, ClsCommon.ShiftTwoEnd.Minute, 00);
+            ShiftThreeEnd = new DateTime(d3.Year, d3.Month, d3.Day, ClsCommon.ShiftThreeEnd.Hour, ClsCommon.ShiftThreeEnd.Minute, 00);
+
+            StrTableName = SqlHandler.GetWLCurrMonth();
+
+
+
+            try
+            {
+                switch (SelectedMode)
+                {
+                    case 0: //DayChecked
+
+                        string SelectedTable = ClsCommon.WlArchMonth[DateOrHour.Value.Month - 1] + (DateOrHour.Value.Year - 2000).ToString();
+
+                        StrFileName = "WL_Day_" + DateTime.Now.ToString("D");
+                        RepSelect = ClsCommon.DayReport;
+                        TimeStart = DayStart;
+                        TimeEnd = DayEnd;
+                        StrTableName = (SelDay == "01") ? GetPreviousBaleTable(DateOrHour) : SelectedTable;
+                        if (BDebug) ClsCommon.MyInfoLog.LogMessage(MsgTypes.INFO, MsgSources.EVENTNOTIFY, "WL Day Report On demand...");
+                        break;
+
+                    case 1: //HourChecked
+                        StrFileName = "WL_Hour_" + HourSelect.ToString("MMMM_dd_yyyy_hh");
+                        RepSelect = ClsCommon.HourReport;
+                        TimeStart = HourSelect.AddHours(-1);
+                        TimeEnd = HourSelect;
+                        if (BDebug) ClsCommon.MyInfoLog.LogMessage(MsgTypes.INFO, MsgSources.EVENTNOTIFY, "WL Hour Report On demand...");
+                        break;
+
+                    case 2: //ShiftOneChecked
+                        StrFileName = "WL_ShiftOne_" + DateTime.Now.ToString("MMMM_dd_yyyy_HH_mm");
+                        RepSelect = ClsCommon.ShiftOneReport;
+                        TimeStart = ShiftThreeEnd; 
+                        TimeEnd = ShiftOneEnd; 
+                        if (BDebug) ClsCommon.MyInfoLog.LogMessage(MsgTypes.INFO, MsgSources.EVENTNOTIFY, "WL Shift One Report On demand...");
+                        break;
+
+                    case 3: //ShiftTwoChecked
+                        StrFileName = "WL_ShiftTwo_" + DateTime.Now.ToString("MMMM_dd_yyyy_HH_mm");
+                        RepSelect = ClsCommon.ShiftTwoReport;
+                        TimeStart = ShiftOneEnd;
+                        TimeEnd = ShiftTwoEnd;
+                        if (BDebug) ClsCommon.MyInfoLog.LogMessage(MsgTypes.INFO, MsgSources.EVENTNOTIFY, "WL Shift Two Report On demand...");
+                        break;
+
+                    case 4: //ShiftThreeChecked
+                        StrFileName = "WL_ShiftThree_" + DateTime.Now.ToString("MMMM_dd_yyyy_HH_mm");
+                        RepSelect = ClsCommon.ShiftThreeReport;
+                        TimeStart = ShiftTwotoThreeEnd;
+                        TimeEnd = ShiftThreeEnd;
+                        if (BDebug) ClsCommon.MyInfoLog.LogMessage(MsgTypes.INFO, MsgSources.EVENTNOTIFY, "WL Shift Three Report On demand...");
+                        break;
+
+                    case 5: //Period Report
+                        StrFileName = "WL_Period Report_" + DateTime.Now.ToString("MMMM_dd_yyyy_HH_mm");
+                        RepSelect = ClsCommon.ShiftThreeReport;
+                        TimeStart = PerHrStart;
+                        TimeEnd = PerHrEnd;
+                        if (BDebug) ClsCommon.MyInfoLog.LogMessage(MsgTypes.INFO, MsgSources.EVENTNOTIFY, "WL Shift Three Report On demand...");
+                        break;
+                }
+            
+                strQuery = "SELECT * FROM " + StrTableName + "  with (NOLOCK) WHERE (ReadTime BETWEEN '" +
+                            TimeStart.ToString("MM/dd/yyyy HH:mm") +
+                            "' AND '" + TimeEnd.ToString("MM/dd/yyyy HH:mm") + "')";
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show("ERROR in WLReportModel GetDataForDemandMode " + ex.Message);
+            }
+            return GetWlDataTable(strQuery); 
+        }
+
+        
+        internal void GetWlDataForDemandMode(int SelectedMode, DateTime? DateOrHour, DateTime HourSelect)
+        {
+            DataTable MydataTab = new DataTable();
+
+            string StrTableName = string.Empty;
+            string LiveRepQuery = string.Empty;
+
+            DateTime timeNow = DateTime.Now;
+            DateTime Datesel = (DateTime)DateOrHour;
+            var SelDay = Datesel.ToString("dd");
+
+            string strQuery = string.Empty;
+
+            DateTime TimeStart = DateTime.Now;
+            DateTime TimeEnd = DateTime.Now;
+
+            //Start should be before End
+            if (ClsCommon.HourStart > ClsCommon.HourEnd)
+            {
+                ClsCommon.HourStart = ClsCommon.HourEnd.AddHours(-1);
+            }
+            var PerHrStart = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, ClsCommon.HourStart.Hour, ClsCommon.HourStart.Minute, 00);
+            var PerHrEnd = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, ClsCommon.HourEnd.Hour, ClsCommon.HourEnd.Minute, 00);
+
+            var d3 = new DateTime(Datesel.Year, Datesel.Month, Datesel.Day, DayEndTime.Hour, DayEndTime.Minute, 00);
+            CurrProdDayEnd = d3;
+            PrevProdDayEnd = d3.AddDays(-1);
+            NextProdDayEnd = d3.AddDays(1);
+
+            DayStart = PrevProdDayEnd;
+            DayEnd = CurrProdDayEnd;
+
+            ShiftOneEnd = new DateTime(d3.Year, d3.Month, d3.Day, ClsCommon.ShiftOneEnd.Hour, ClsCommon.ShiftOneEnd.Minute, 00);
+            ShiftTwoEnd = new DateTime(d3.Year, d3.Month, d3.Day, ClsCommon.ShiftTwoEnd.Hour, ClsCommon.ShiftTwoEnd.Minute, 00);
+
+            ShiftTwotoThreeEnd = new DateTime(PrevProdDayEnd.Year, PrevProdDayEnd.Month, PrevProdDayEnd.Day, ClsCommon.ShiftTwoEnd.Hour, ClsCommon.ShiftTwoEnd.Minute, 00);
+            ShiftThreeEnd = new DateTime(d3.Year, d3.Month, d3.Day, ClsCommon.ShiftThreeEnd.Hour, ClsCommon.ShiftThreeEnd.Minute, 00);
+
+            StrTableName = SqlHandler.GetWLCurrMonth();
+
+            if (SelectedMode > -1)
+            {
+                switch (SelectedMode)
+                {
+                    case 0: //DayChecked
+
+                        string SelectedTable = ClsCommon.WlArchMonth[DateOrHour.Value.Month - 1] + (DateOrHour.Value.Year - 2000).ToString();
+
+                        StrFileName = "WL_Day_" + DateTime.Now.ToString("D");
+                        RepSelect = ClsCommon.DayReport;
+                        TimeStart = DayStart;
+                        TimeEnd = DayEnd;
+                        StrTableName = (SelDay == "01") ? GetPreviousBaleTable(DateOrHour) : SelectedTable;
+                        if (BDebug) ClsCommon.MyInfoLog.LogMessage(MsgTypes.INFO, MsgSources.EVENTNOTIFY, "WL Day Report On demand...");
+                        break;
+
+                    case 1: //HourChecked
+                        StrFileName = "WL_Hour_" + HourSelect.ToString("MMMM_dd_yyyy_hh");
+                        RepSelect = ClsCommon.HourReport;
+                        TimeStart = HourSelect.AddHours(-1);
+                        TimeEnd = HourSelect;
+                        if (BDebug) ClsCommon.MyInfoLog.LogMessage(MsgTypes.INFO, MsgSources.EVENTNOTIFY, "WL Hour Report On demand...");
+                        break;
+
+                    case 2: //ShiftOneChecked
+                        StrFileName = "WL_ShiftOne_" + DateTime.Now.ToString("MMMM_dd_yyyy_HH_mm");
+                        RepSelect = ClsCommon.ShiftOneReport;
+                        TimeStart = ShiftThreeEnd;
+                        TimeEnd = ShiftOneEnd;
+                        if (BDebug) ClsCommon.MyInfoLog.LogMessage(MsgTypes.INFO, MsgSources.EVENTNOTIFY, "WL Shift One Report On demand...");
+                        break;
+
+                    case 3: //ShiftTwoChecked
+                        StrFileName = "WL_ShiftTwo_" + DateTime.Now.ToString("MMMM_dd_yyyy_HH_mm");
+                        RepSelect = ClsCommon.ShiftTwoReport;
+                        TimeStart = ShiftOneEnd;
+                        TimeEnd = ShiftTwoEnd;
+                        if (BDebug) ClsCommon.MyInfoLog.LogMessage(MsgTypes.INFO, MsgSources.EVENTNOTIFY, "WL Shift Two Report On demand...");
+                        break;
+
+                    case 4: //ShiftThreeChecked
+                        StrFileName = "WL_ShiftThree_" + DateTime.Now.ToString("MMMM_dd_yyyy_HH_mm");
+                        RepSelect = ClsCommon.ShiftThreeReport;
+                        TimeStart = ShiftTwotoThreeEnd;
+                        TimeEnd = ShiftThreeEnd;
+                        if (BDebug) ClsCommon.MyInfoLog.LogMessage(MsgTypes.INFO, MsgSources.EVENTNOTIFY, "WL Shift Three Report On demand...");
+                        break;
+
+                    case 5: //Period Report
+                        StrFileName = "WL_Period Report_" + DateTime.Now.ToString("MMMM_dd_yyyy_HH_mm");
+                        RepSelect = ClsCommon.ShiftThreeReport;
+                        TimeStart = PerHrStart;
+                        TimeEnd = PerHrEnd;
+                        if (BDebug) ClsCommon.MyInfoLog.LogMessage(MsgTypes.INFO, MsgSources.EVENTNOTIFY, "WL Shift Three Report On demand...");
+                        break;
+                }
+
+                strQuery = "SELECT * FROM " + StrTableName + "  with (NOLOCK) WHERE (ReadTime BETWEEN '" +
+                                TimeStart.ToString("MM/dd/yyyy HH:mm") +
+                                "' AND '" + TimeEnd.ToString("MM/dd/yyyy HH:mm") + "')";
+
+                DataTable Mytable = GetWlDataTable(strQuery);
+
+            }  
+        }
+
+        
+        private string GetPreviousBaleTable(DateTime? dateOrHour)
+        {
+            return (dateOrHour.Value.Month == 1) ? ClsCommon.WlArchMonth[11] + (dateOrHour.Value.Year - 2001).ToString() :
+                ClsCommon.WlArchMonth[dateOrHour.Value.Month - 2] + (dateOrHour.Value.Year - 2000).ToString();
+        }
+
+
+        "TimeComplete, SourceName,SerialNumber, Weight, TareWeight, Forte," +
+                "NetWeight, Moisture, BDWeight*(1+SR/100), StockLabel4, SpareSngFld3, StockName, FC_IdentString";
+
+
+Field Name          Forte field
+
+Time 			    TimeComplete
+Date 		        TimeComplete
+Machine Number  	SourceName
+Bale Identity  	    FC_IdentString, SerialNumber
+Class  
+Weight  	        Weight
+TareWeight 	        TareWeight 
+NetWeight  		    NetWeight
+Moisture  		    Moisture
+IW @CCKg 
+%CV 			    SpareSngFld3
+Product Code 		StockLabel4
+ITW No. 
+Quality 		    StockName
+Forte			    Forte
+
